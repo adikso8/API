@@ -5,6 +5,7 @@ class KlientModel extends Database
 {
     public function getKlients($limit)
     {
+
         return $this->select("SELECT * FROM klient LIMIT ?", ["i", $limit]);
     }
 }

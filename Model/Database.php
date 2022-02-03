@@ -6,10 +6,16 @@ class Database
     public function __construct()
     {
         try {
+
             $this->connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
-    	
-            if ( mysqli_connect_errno()) {
+
+            if ( $this->connection->connect_errno) {
                 throw new Exception("Could not connect to database.");   
+            }
+            if ($this->connection->ping()) {
+                printf ("Our connection is ok!\n");
+            } else {
+                printf ("Error: %s\n", $mysqli->error);
             }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());   
@@ -19,7 +25,9 @@ class Database
     public function select($query = "" , $params = [])
     {
         try {
+
             $stmt = $this->executeStatement( $query , $params );
+
             $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);				
             $stmt->close();
 
@@ -33,6 +41,7 @@ class Database
     private function executeStatement($query = "" , $params = [])
     {
         try {
+
             $stmt = $this->connection->prepare( $query );
 
             if($stmt === false) {

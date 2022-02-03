@@ -13,6 +13,7 @@ class KlientController extends BaseController
 
         if (strtoupper($requestMethod) == 'GET') {
             try {
+
                 $klientModel = new KlientModel();
 
                 $intLimit = 10;
@@ -21,6 +22,7 @@ class KlientController extends BaseController
                 }
 
                 $arrKlients = $klientModel->getKlients($intLimit);
+
                 $responseData = json_encode($arrKlients);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
